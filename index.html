@@ -1,0 +1,1611 @@
+<!DOCTYPE html>
+<!-- saved from url=(0098)file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="./Runtime_files/css2" rel="stylesheet">
+
+      
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>Runtime Complexity | Devmountain Web Development</title>
+          <link rel="stylesheet" type="text/css" href="./Runtime_files/bootstrap.min.css">
+          <link rel="stylesheet" type="text/css" href="./Runtime_files/pygments.css">
+          <link rel="stylesheet" type="text/css" href="./Runtime_files/styles.css">
+          <link rel="stylesheet" type="text/css" href="./Runtime_files/plot_directive.css">
+          <link rel="stylesheet" type="text/css" href="./Runtime_files/graphviz.css">
+          <link rel="stylesheet" type="text/css" href="./Runtime_files/tabs.css">
+          <link rel="stylesheet" type="text/css" href="./Runtime_files/sphinxtab.css">
+          <link rel="stylesheet" type="text/css" href="./Runtime_files/quickfixstyles.css">
+          <link rel="stylesheet" type="text/css" href="./Runtime_files/revealfix.css">
+  <style type="text/css">.CtxtMenu_InfoClose {  top:.2em; right:.2em;}
+.CtxtMenu_InfoContent {  overflow:auto; text-align:left; font-size:80%;  padding:.4em .6em; border:1px inset; margin:1em 0px;  max-height:20em; max-width:30em; background-color:#EEEEEE;  white-space:normal;}
+.CtxtMenu_Info.CtxtMenu_MousePost {outline:none;}
+.CtxtMenu_Info {  position:fixed; left:50%; width:auto; text-align:center;  border:3px outset; padding:1em 2em; background-color:#DDDDDD;  color:black;  cursor:default; font-family:message-box; font-size:120%;  font-style:normal; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 15px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius:15px;               /* Safari and Chrome */  -moz-border-radius:15px;                  /* Firefox */  -khtml-border-radius:15px;                /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */  filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color="gray", Positive="true"); /* IE */}
+</style><style type="text/css">.CtxtMenu_MenuClose {  position:absolute;  cursor:pointer;  display:inline-block;  border:2px solid #AAA;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  font-family: "Courier New", Courier;  font-size:24px;  color:#F0F0F0}
+.CtxtMenu_MenuClose span {  display:block; background-color:#AAA; border:1.5px solid;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  line-height:0;  padding:8px 0 6px     /* may need to be browser-specific */}
+.CtxtMenu_MenuClose:hover {  color:white!important;  border:2px solid #CCC!important}
+.CtxtMenu_MenuClose:hover span {  background-color:#CCC!important}
+.CtxtMenu_MenuClose:hover:focus {  outline:none}
+</style><style type="text/css">.CtxtMenu_Menu {  position:absolute;  background-color:white;  color:black;  width:auto; padding:5px 0px;  border:1px solid #CCCCCC; margin:0; cursor:default;  font: menu; text-align:left; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 5px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius: 5px;             /* Safari and Chrome */  -moz-border-radius: 5px;                /* Firefox */  -khtml-border-radius: 5px;              /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */}
+.CtxtMenu_MenuItem {  padding: 1px 2em;  background:transparent;}
+.CtxtMenu_MenuArrow {  position:absolute; right:.5em; padding-top:.25em; color:#666666;  font-family: null; font-size: .75em}
+.CtxtMenu_MenuActive .CtxtMenu_MenuArrow {color:white}
+.CtxtMenu_MenuArrow.CtxtMenu_RTL {left:.5em; right:auto}
+.CtxtMenu_MenuCheck {  position:absolute; left:.7em;  font-family: null}
+.CtxtMenu_MenuCheck.CtxtMenu_RTL { right:.7em; left:auto }
+.CtxtMenu_MenuRadioCheck {  position:absolute; left: .7em;}
+.CtxtMenu_MenuRadioCheck.CtxtMenu_RTL {  right: .7em; left:auto}
+.CtxtMenu_MenuInputBox {  padding-left: 1em; right:.5em; color:#666666;  font-family: null;}
+.CtxtMenu_MenuInputBox.CtxtMenu_RTL {  left: .1em;}
+.CtxtMenu_MenuComboBox {  left:.1em; padding-bottom:.5em;}
+.CtxtMenu_MenuSlider {  left: .1em;}
+.CtxtMenu_SliderValue {  position:absolute; right:.1em; padding-top:.25em; color:#333333;  font-size: .75em}
+.CtxtMenu_SliderBar {  outline: none; background: #d3d3d3}
+.CtxtMenu_MenuLabel {  padding: 1px 2em 3px 1.33em;  font-style:italic}
+.CtxtMenu_MenuRule {  border-top: 1px solid #DDDDDD;  margin: 4px 3px;}
+.CtxtMenu_MenuDisabled {  color:GrayText}
+.CtxtMenu_MenuActive {  background-color: #606872;  color: white;}
+.CtxtMenu_MenuDisabled:focus {  background-color: #E8E8E8}
+.CtxtMenu_MenuLabel:focus {  background-color: #E8E8E8}
+.CtxtMenu_ContextMenu:focus {  outline:none}
+.CtxtMenu_ContextMenu .CtxtMenu_MenuItem:focus {  outline:none}
+.CtxtMenu_SelectionMenu {  position:relative; float:left;  border-bottom: none; -webkit-box-shadow:none; -webkit-border-radius:0px; }
+.CtxtMenu_SelectionItem {  padding-right: 1em;}
+.CtxtMenu_Selection {  right: 40%; width:50%; }
+.CtxtMenu_SelectionBox {  padding: 0em; max-height:20em; max-width: none;  background-color:#FFFFFF;}
+.CtxtMenu_SelectionDivider {  clear: both; border-top: 2px solid #000000;}
+.CtxtMenu_Menu .CtxtMenu_MenuClose {  top:-10px; left:-10px}
+</style><style id="MJX-CHTML-styles">
+mjx-container[jax="CHTML"] {
+  line-height: 0;
+}
+
+mjx-container [space="1"] {
+  margin-left: .111em;
+}
+
+mjx-container [space="2"] {
+  margin-left: .167em;
+}
+
+mjx-container [space="3"] {
+  margin-left: .222em;
+}
+
+mjx-container [space="4"] {
+  margin-left: .278em;
+}
+
+mjx-container [space="5"] {
+  margin-left: .333em;
+}
+
+mjx-container [rspace="1"] {
+  margin-right: .111em;
+}
+
+mjx-container [rspace="2"] {
+  margin-right: .167em;
+}
+
+mjx-container [rspace="3"] {
+  margin-right: .222em;
+}
+
+mjx-container [rspace="4"] {
+  margin-right: .278em;
+}
+
+mjx-container [rspace="5"] {
+  margin-right: .333em;
+}
+
+mjx-container [size="s"] {
+  font-size: 70.7%;
+}
+
+mjx-container [size="ss"] {
+  font-size: 50%;
+}
+
+mjx-container [size="Tn"] {
+  font-size: 60%;
+}
+
+mjx-container [size="sm"] {
+  font-size: 85%;
+}
+
+mjx-container [size="lg"] {
+  font-size: 120%;
+}
+
+mjx-container [size="Lg"] {
+  font-size: 144%;
+}
+
+mjx-container [size="LG"] {
+  font-size: 173%;
+}
+
+mjx-container [size="hg"] {
+  font-size: 207%;
+}
+
+mjx-container [size="HG"] {
+  font-size: 249%;
+}
+
+mjx-container [width="full"] {
+  width: 100%;
+}
+
+mjx-box {
+  display: inline-block;
+}
+
+mjx-block {
+  display: block;
+}
+
+mjx-itable {
+  display: inline-table;
+}
+
+mjx-row {
+  display: table-row;
+}
+
+mjx-row > * {
+  display: table-cell;
+}
+
+mjx-mtext {
+  display: inline-block;
+}
+
+mjx-mstyle {
+  display: inline-block;
+}
+
+mjx-merror {
+  display: inline-block;
+  color: red;
+  background-color: yellow;
+}
+
+mjx-mphantom {
+  visibility: hidden;
+}
+
+_::-webkit-full-page-media, _:future, :root mjx-container {
+  will-change: opacity;
+}
+
+mjx-assistive-mml {
+  position: absolute !important;
+  top: 0px;
+  left: 0px;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 1px 0px 0px 0px !important;
+  border: 0px !important;
+  display: block !important;
+  width: auto !important;
+  overflow: hidden !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+mjx-assistive-mml[display="block"] {
+  width: 100% !important;
+}
+
+mjx-math {
+  display: inline-block;
+  text-align: left;
+  line-height: 0;
+  text-indent: 0;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 100%;
+  font-size-adjust: none;
+  letter-spacing: normal;
+  border-collapse: collapse;
+  word-wrap: normal;
+  word-spacing: normal;
+  white-space: nowrap;
+  direction: ltr;
+  padding: 1px 0;
+}
+
+mjx-container[jax="CHTML"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="CHTML"][display="true"][width="full"] {
+  display: flex;
+}
+
+mjx-container[jax="CHTML"][display="true"] mjx-math {
+  padding: 0;
+}
+
+mjx-container[jax="CHTML"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="CHTML"][justify="right"] {
+  text-align: right;
+}
+
+mjx-mi {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-c {
+  display: inline-block;
+}
+
+mjx-utext {
+  display: inline-block;
+  padding: .75em 0 .2em 0;
+}
+
+mjx-mo {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-stretchy-h {
+  display: inline-table;
+  width: 100%;
+}
+
+mjx-stretchy-h > * {
+  display: table-cell;
+  width: 0;
+}
+
+mjx-stretchy-h > * > mjx-c {
+  display: inline-block;
+  transform: scalex(1.0000001);
+}
+
+mjx-stretchy-h > * > mjx-c::before {
+  display: inline-block;
+  width: initial;
+}
+
+mjx-stretchy-h > mjx-ext {
+  /* IE */ overflow: hidden;
+  /* others */ overflow: clip visible;
+  width: 100%;
+}
+
+mjx-stretchy-h > mjx-ext > mjx-c::before {
+  transform: scalex(500);
+}
+
+mjx-stretchy-h > mjx-ext > mjx-c {
+  width: 0;
+}
+
+mjx-stretchy-h > mjx-beg > mjx-c {
+  margin-right: -.1em;
+}
+
+mjx-stretchy-h > mjx-end > mjx-c {
+  margin-left: -.1em;
+}
+
+mjx-stretchy-v {
+  display: inline-block;
+}
+
+mjx-stretchy-v > * {
+  display: block;
+}
+
+mjx-stretchy-v > mjx-beg {
+  height: 0;
+}
+
+mjx-stretchy-v > mjx-end > mjx-c {
+  display: block;
+}
+
+mjx-stretchy-v > * > mjx-c {
+  transform: scaley(1.0000001);
+  transform-origin: left center;
+  overflow: hidden;
+}
+
+mjx-stretchy-v > mjx-ext {
+  display: block;
+  height: 100%;
+  box-sizing: border-box;
+  border: 0px solid transparent;
+  /* IE */ overflow: hidden;
+  /* others */ overflow: visible clip;
+}
+
+mjx-stretchy-v > mjx-ext > mjx-c::before {
+  width: initial;
+  box-sizing: border-box;
+}
+
+mjx-stretchy-v > mjx-ext > mjx-c {
+  transform: scaleY(500) translateY(.075em);
+  overflow: visible;
+}
+
+mjx-mark {
+  display: inline-block;
+  height: 0px;
+}
+
+mjx-msup {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-mn {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-c::before {
+  display: block;
+  width: 0;
+}
+
+.MJX-TEX {
+  font-family: MJXZERO, MJXTEX;
+}
+
+.TEX-B {
+  font-family: MJXZERO, MJXTEX-B;
+}
+
+.TEX-I {
+  font-family: MJXZERO, MJXTEX-I;
+}
+
+.TEX-MI {
+  font-family: MJXZERO, MJXTEX-MI;
+}
+
+.TEX-BI {
+  font-family: MJXZERO, MJXTEX-BI;
+}
+
+.TEX-S1 {
+  font-family: MJXZERO, MJXTEX-S1;
+}
+
+.TEX-S2 {
+  font-family: MJXZERO, MJXTEX-S2;
+}
+
+.TEX-S3 {
+  font-family: MJXZERO, MJXTEX-S3;
+}
+
+.TEX-S4 {
+  font-family: MJXZERO, MJXTEX-S4;
+}
+
+.TEX-A {
+  font-family: MJXZERO, MJXTEX-A;
+}
+
+.TEX-C {
+  font-family: MJXZERO, MJXTEX-C;
+}
+
+.TEX-CB {
+  font-family: MJXZERO, MJXTEX-CB;
+}
+
+.TEX-FR {
+  font-family: MJXZERO, MJXTEX-FR;
+}
+
+.TEX-FRB {
+  font-family: MJXZERO, MJXTEX-FRB;
+}
+
+.TEX-SS {
+  font-family: MJXZERO, MJXTEX-SS;
+}
+
+.TEX-SSB {
+  font-family: MJXZERO, MJXTEX-SSB;
+}
+
+.TEX-SSI {
+  font-family: MJXZERO, MJXTEX-SSI;
+}
+
+.TEX-SC {
+  font-family: MJXZERO, MJXTEX-SC;
+}
+
+.TEX-T {
+  font-family: MJXZERO, MJXTEX-T;
+}
+
+.TEX-V {
+  font-family: MJXZERO, MJXTEX-V;
+}
+
+.TEX-VB {
+  font-family: MJXZERO, MJXTEX-VB;
+}
+
+mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
+  font-family: MJXZERO, MJXTEX-S1, MJXTEX-S4, MJXTEX, MJXTEX-A ! important;
+}
+
+@font-face /* 0 */ {
+  font-family: MJXZERO;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Zero.woff") format("woff");
+}
+
+@font-face /* 1 */ {
+  font-family: MJXTEX;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Regular.woff") format("woff");
+}
+
+@font-face /* 2 */ {
+  font-family: MJXTEX-B;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Bold.woff") format("woff");
+}
+
+@font-face /* 3 */ {
+  font-family: MJXTEX-I;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-Italic.woff") format("woff");
+}
+
+@font-face /* 4 */ {
+  font-family: MJXTEX-MI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Italic.woff") format("woff");
+}
+
+@font-face /* 5 */ {
+  font-family: MJXTEX-BI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-BoldItalic.woff") format("woff");
+}
+
+@font-face /* 6 */ {
+  font-family: MJXTEX-S1;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size1-Regular.woff") format("woff");
+}
+
+@font-face /* 7 */ {
+  font-family: MJXTEX-S2;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size2-Regular.woff") format("woff");
+}
+
+@font-face /* 8 */ {
+  font-family: MJXTEX-S3;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size3-Regular.woff") format("woff");
+}
+
+@font-face /* 9 */ {
+  font-family: MJXTEX-S4;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size4-Regular.woff") format("woff");
+}
+
+@font-face /* 10 */ {
+  font-family: MJXTEX-A;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_AMS-Regular.woff") format("woff");
+}
+
+@font-face /* 11 */ {
+  font-family: MJXTEX-C;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Regular.woff") format("woff");
+}
+
+@font-face /* 12 */ {
+  font-family: MJXTEX-CB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Bold.woff") format("woff");
+}
+
+@font-face /* 13 */ {
+  font-family: MJXTEX-FR;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Regular.woff") format("woff");
+}
+
+@font-face /* 14 */ {
+  font-family: MJXTEX-FRB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Bold.woff") format("woff");
+}
+
+@font-face /* 15 */ {
+  font-family: MJXTEX-SS;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Regular.woff") format("woff");
+}
+
+@font-face /* 16 */ {
+  font-family: MJXTEX-SSB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Bold.woff") format("woff");
+}
+
+@font-face /* 17 */ {
+  font-family: MJXTEX-SSI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Italic.woff") format("woff");
+}
+
+@font-face /* 18 */ {
+  font-family: MJXTEX-SC;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Script-Regular.woff") format("woff");
+}
+
+@font-face /* 19 */ {
+  font-family: MJXTEX-T;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Typewriter-Regular.woff") format("woff");
+}
+
+@font-face /* 20 */ {
+  font-family: MJXTEX-V;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Regular.woff") format("woff");
+}
+
+@font-face /* 21 */ {
+  font-family: MJXTEX-VB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Bold.woff") format("woff");
+}
+
+mjx-c.mjx-c1D442.TEX-I::before {
+  padding: 0.704em 0.763em 0.022em 0;
+  content: "O";
+}
+
+mjx-c.mjx-c28::before {
+  padding: 0.75em 0.389em 0.25em 0;
+  content: "(";
+}
+
+mjx-c.mjx-c1D45B.TEX-I::before {
+  padding: 0.442em 0.6em 0.011em 0;
+  content: "n";
+}
+
+mjx-c.mjx-c32::before {
+  padding: 0.666em 0.5em 0 0;
+  content: "2";
+}
+
+mjx-c.mjx-c29::before {
+  padding: 0.75em 0.389em 0.25em 0;
+  content: ")";
+}
+
+mjx-c.mjx-c2B::before {
+  padding: 0.583em 0.778em 0.082em 0;
+  content: "+";
+}
+
+mjx-c.mjx-c33::before {
+  padding: 0.665em 0.5em 0.022em 0;
+  content: "3";
+}
+
+mjx-c.mjx-c31::before {
+  padding: 0.666em 0.5em 0 0;
+  content: "1";
+}
+
+mjx-c.mjx-c30::before {
+  padding: 0.666em 0.5em 0.022em 0;
+  content: "0";
+}
+
+mjx-c.mjx-c3E::before {
+  padding: 0.54em 0.778em 0.04em 0;
+  content: ">";
+}
+
+mjx-c.mjx-c3D::before {
+  padding: 0.583em 0.778em 0.082em 0;
+  content: "=";
+}
+
+mjx-c.mjx-cD7::before {
+  padding: 0.491em 0.778em 0 0;
+  content: "\D7";
+}
+
+mjx-c.mjx-c1D465.TEX-I::before {
+  padding: 0.442em 0.572em 0.011em 0;
+  content: "x";
+}
+
+mjx-c.mjx-c1D459.TEX-I::before {
+  padding: 0.694em 0.298em 0.011em 0;
+  content: "l";
+}
+
+mjx-c.mjx-c1D45C.TEX-I::before {
+  padding: 0.441em 0.485em 0.011em 0;
+  content: "o";
+}
+
+mjx-c.mjx-c1D454.TEX-I::before {
+  padding: 0.442em 0.477em 0.205em 0;
+  content: "g";
+}
+
+mjx-c.mjx-c37::before {
+  padding: 0.676em 0.5em 0.022em 0;
+  content: "7";
+}
+
+mjx-c.mjx-c34::before {
+  padding: 0.677em 0.5em 0 0;
+  content: "4";
+}
+</style></head>
+  <body>
+<div class="brand sticky-lg-top"></div>
+<div class="specs specs-layout mx-3 mx-md-5 d-block d-lg-grid">
+  <aside class="specs-sidebar text-muted d-none d-lg-block">
+    <strong class="d-none d-md-block h6 my-2" style="color: #3270a1"> On this page </strong>
+    <hr class="d-none d-md-block my-2" style="color: #3270A1;" "="">
+    <nav id="localtoc" class="d-none d-md-block"><ul>
+<li><a class="reference internal" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#">Runtime Complexity</a><ul>
+<li><a class="reference internal" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#introduction">Introduction</a><ul>
+<li><a class="reference internal" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#goals">Goals</a></li>
+<li><a class="reference internal" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#speed">Speed</a></li>
+<li><a class="reference internal" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#we-want-to-scale">We want to scale</a></li>
+<li><a class="reference internal" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#data-structures">Data Structures</a></li>
+<li><a class="reference internal" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#so-why-do-we-care">So… why do we care?</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#id1">Runtime Complexity</a><ul>
+<li><a class="reference internal" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#what-is-runtime-complexity">What is Runtime Complexity?</a></li>
+<li><a class="reference internal" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#why-is-it-important">Why is it important?</a></li>
+<li><a class="reference internal" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#example-sending-data-from-sf-to-nyc">Example: Sending Data from SF to NYC</a></li>
+<li><a class="reference internal" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#code-example">Code Example</a></li>
+<li><a class="reference internal" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#same-function-bigger-array">Same Function, Bigger Array</a></li>
+<li><a class="reference internal" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#graph-a-linear-relationship">Graph: A linear relationship</a></li>
+<li><a class="reference internal" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#asymptotic-behavior-and-big-o">Asymptotic Behavior and “Big O”</a></li>
+<li><a class="reference internal" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#worst-case">Worst Case</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#common-runtimes">Common Runtimes</a><ul>
+<li><a class="reference internal" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#example">Example</a></li>
+<li><a class="reference internal" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#o-1-constant-time">O(1): Constant Time</a></li>
+<li><a class="reference internal" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#o-n-linear-time">O(n): Linear Time</a></li>
+<li><a class="reference internal" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#addition-vs-multiplication">Addition vs. Multiplication</a></li>
+<li><a class="reference internal" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#o-n-2-quadratic-time"><span class="math notranslate nohighlight"><mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="0" style="font-size: 109.9%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D442 TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n"><mjx-c class="mjx-c28"></mjx-c></mjx-mo><mjx-msup><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D45B TEX-I"></mjx-c></mjx-mi><mjx-script style="vertical-align: 0.363em;"><mjx-mn class="mjx-n" size="s"><mjx-c class="mjx-c32"></mjx-c></mjx-mn></mjx-script></mjx-msup><mjx-mo class="mjx-n"><mjx-c class="mjx-c29"></mjx-c></mjx-mo></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>O</mi><mo stretchy="false">(</mo><msup><mi>n</mi><mn>2</mn></msup><mo stretchy="false">)</mo></math></mjx-assistive-mml></mjx-container></span>: Quadratic Time</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#logarithmic-runtimes">Logarithmic Runtimes</a><ul>
+<li><a class="reference internal" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#guessing-game">Guessing Game</a></li>
+<li><a class="reference internal" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#o-log-n-logarithmic-time">O(log n): Logarithmic time</a></li>
+<li><a class="reference internal" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#o-n-log-n-logarithmic-time">O(n log n): Logarithmic time</a></li>
+<li><a class="reference internal" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#whats-the-difference">What’s the Difference?</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#less-common-and-very-slow-runtimes">Less Common (and Very Slow) Runtimes</a><ul>
+<li><a class="reference internal" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#o-2-n-exponential-time"><span class="math notranslate nohighlight"><mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="1" style="font-size: 109.9%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D442 TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n"><mjx-c class="mjx-c28"></mjx-c></mjx-mo><mjx-msup><mjx-mn class="mjx-n"><mjx-c class="mjx-c32"></mjx-c></mjx-mn><mjx-script style="vertical-align: 0.363em;"><mjx-mi class="mjx-i" size="s"><mjx-c class="mjx-c1D45B TEX-I"></mjx-c></mjx-mi></mjx-script></mjx-msup><mjx-mo class="mjx-n"><mjx-c class="mjx-c29"></mjx-c></mjx-mo></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>O</mi><mo stretchy="false">(</mo><msup><mn>2</mn><mi>n</mi></msup><mo stretchy="false">)</mo></math></mjx-assistive-mml></mjx-container></span>: Exponential Time</a></li>
+<li><a class="reference internal" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#o-n-factorial-time">O(n!): Factorial Time</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#sets">Sets</a><ul>
+<li><a class="reference internal" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#id2">Sets</a></li>
+<li><a class="reference internal" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#using-sets">Using Sets</a></li>
+<li><a class="reference internal" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#sets-and-runtime">Sets and Runtime</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#using-runtimes">Using Runtimes</a><ul>
+<li><a class="reference internal" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#runtime-comparison">Runtime Comparison</a></li>
+<li><a class="reference internal" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#what-do-these-equal">What Do These Equal?</a></li>
+<li><a class="reference internal" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#rules-of-thumb">Rules of Thumb</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#looking-ahead">Looking Ahead</a></li>
+</ul>
+</li>
+</ul>
+</nav>
+  </aside>
+  <main class="specs-main d-block d-lg-grid">
+    <div class="specs-content"><section id="runtime-complexity">
+<h1>Runtime Complexity<a class="headerlink" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#runtime-complexity" title="Permalink to this heading">#</a></h1>
+<p>
+Measuring the “runtime complexity” of a program tells you how the speed of a program is likely to
+change as the size of input of the program changes. Choosing an algorithm or implementation often
+factors in the different runtime complexities of possible methods. This lecture introduces runtime
+complexity, and shows common runtimes (constant, linear, quadratic, logarithmic, and exponential).</p>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#introduction" title="Permalink to this heading">#</a></h2>
+<section id="goals">
+<h3>Goals<a class="headerlink" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#goals" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>
+What is runtime complexity and when does it matter?</p></li>
+<li><p>
+Measuring runtime</p></li>
+<li><p>
+Common runtimes</p></li>
+</ul>
+</section>
+<section id="speed">
+<h3>Speed<a class="headerlink" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#speed" title="Permalink to this heading">#</a></h3>
+<p>
+Return an array of numbers from 9999 to 0 in descending order.</p>
+<div class="compare docutils container">
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="kd">let</span><span class="w"> </span><span class="nx">nums</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[];</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">let</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">10000</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">nums</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nx">nums</span><span class="p">.</span><span class="nx">reverse</span><span class="p">();</span><span class="w">  </span><span class="c1">// reverse array in-place</span>
+</pre></div>
+</div>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="kd">let</span><span class="w"> </span><span class="nx">nums</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[];</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">let</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">10000</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">nums</span><span class="p">.</span><span class="nx">unshift</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="fragment docutils container">
+<p>
+Right-hand version is hundreds of times slower!</p>
+</div>
+<div class="admonition py-3 px-4 my-4 rounded border note">
+<p class="h5 admonition-title">
+Better solution</p>
+<p>
+Actually, neither of these is the best solution. The fastest solution would be something like this:</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="kd">let</span><span class="w"> </span><span class="nx">nums</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[];</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">let</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">9999</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mf">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="o">--</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">nums</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="we-want-to-scale">
+<h3>We want to scale<a class="headerlink" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#we-want-to-scale" title="Permalink to this heading">#</a></h3>
+<p>
+Premature optimization is the root of all evil.</p>
+<p>
+— Donald Knuth</p>
+<ul class="simple">
+<li class="fragment"><p>
+Please note the “premature:” we don’t want to “micro-optimize”</p>
+<ul>
+<li><p>
+Clear, simpler programs often better than faster ones</p></li>
+</ul>
+</li>
+<li class="fragment"><p>
+But we do care about how they “scale” — that adds up!</p></li>
+</ul>
+<div class="compare docutils container">
+<div class="docutils container">
+<p>
+Times, in nanoseconds, for inserting vs appending <code class="docutils literal notranslate"><span class="pre">n</span></code> items:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>
+<code class="docutils literal notranslate"><span class="pre">n</span></code></p></th>
+<th class="head"><p>
+append</p></th>
+<th class="head"><p>
+insert</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>
+10</p></td>
+<td><p>
+2</p></td>
+<td><p>
+2</p></td>
+</tr>
+<tr class="row-odd"><td><p>
+100</p></td>
+<td><p>
+9</p></td>
+<td><p>
+19</p></td>
+</tr>
+<tr class="row-even"><td><p>
+1000</p></td>
+<td><p>
+73</p></td>
+<td><p>
+324</p></td>
+</tr>
+<tr class="row-odd"><td><p>
+10000</p></td>
+<td><p>
+678</p></td>
+<td><p>
+21,000</p></td>
+</tr>
+<tr class="row-even"><td><p>
+100000</p></td>
+<td><p>
+7,810</p></td>
+<td><p>
+1,950,000</p></td>
+</tr>
+<tr class="row-odd"><td><p>
+1000000</p></td>
+<td><p>
+84,900</p></td>
+<td><p>
+40,323,000,000</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>
+<img alt="Append vs Insert" src="./Runtime_files/append-vs-insert.png" style="width: 500px;"></p>
+</div>
+</section>
+<section id="data-structures">
+<h3>Data Structures<a class="headerlink" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#data-structures" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>
+This means understanding how data structures work</p></li>
+<li><p>
+And picking the right ones</p></li>
+<li><p>
+And using them correctly</p></li>
+</ul>
+</section>
+<section id="so-why-do-we-care">
+<h3>So… why do we care?<a class="headerlink" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#so-why-do-we-care" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>
+You want to write programs that can scale</p></li>
+<li><p>
+These are super-common interview questions</p></li>
+</ul>
+</section>
+</section>
+<section id="id1">
+<h2>Runtime Complexity<a class="headerlink" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#id1" title="Permalink to this heading">#</a></h2>
+<section id="what-is-runtime-complexity">
+<h3>What is Runtime Complexity?<a class="headerlink" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#what-is-runtime-complexity" title="Permalink to this heading">#</a></h3>
+<p>
+How <strong>long does it take</strong> my program to run compared to <strong>how much workload</strong> I have, where workload is the size of the input.</p>
+</section>
+<section id="why-is-it-important">
+<h3>Why is it important?<a class="headerlink" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#why-is-it-important" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>
+A mathematical way to talk about algorithm efficiency/speed/performance</p></li>
+<li><p>
+Be aware of the efficiency of your code (and make good choices!)</p></li>
+<li><p>
+Common interview question: “What’s the runtime of this code?”</p></li>
+</ul>
+</section>
+<section id="example-sending-data-from-sf-to-nyc">
+<h3>Example: Sending Data from SF to NYC<a class="headerlink" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#example-sending-data-from-sf-to-nyc" title="Permalink to this heading">#</a></h3>
+<div class="compare docutils container">
+<ul class="simple">
+<li class="fragment"><p>
+Two options: send hard drives on a plane, or send via cable modem</p></li>
+<li class="fragment"><p>
+Notice different “shapes”</p>
+<ul>
+<li><p>
+“constant” for plane</p></li>
+<li><p>
+“linear” for modem</p></li>
+</ul>
+</li>
+</ul>
+<div class="fragment docutils container">
+<p>
+<img alt="Plane vs Modem" src="./Runtime_files/plane-vs-modem.png" style="width: 500px;"></p>
+</div>
+</div>
+</section>
+<section id="code-example">
+<h3>Code Example<a class="headerlink" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#code-example" title="Permalink to this heading">#</a></h3>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="kd">function</span><span class="w"> </span><span class="nx">sumNums</span><span class="p">(</span><span class="nx">nums</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span><span class="p">;</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">let</span><span class="w"> </span><span class="nx">num</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">nums</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">total</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="nx">num</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nx">total</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nx">sumNums</span><span class="p">([</span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="mf">2</span><span class="p">,</span><span class="w"> </span><span class="mf">3</span><span class="p">,</span><span class="w"> </span><span class="mf">4</span><span class="p">,</span><span class="w"> </span><span class="mf">5</span><span class="p">]);</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li class="fragment"><p>
+One operation for initialization of <code class="docutils literal notranslate"><span class="pre">total</span></code> variable</p></li>
+<li class="fragment"><p>
+One operation for each addition</p></li>
+<li class="fragment"><p>
+Total # operations: 1 + (1 × 5) = 6</p></li>
+</ul>
+</section>
+<section id="same-function-bigger-array">
+<h3>Same Function, Bigger Array<a class="headerlink" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#same-function-bigger-array" title="Permalink to this heading">#</a></h3>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="kd">function</span><span class="w"> </span><span class="nx">sumNums</span><span class="p">(</span><span class="nx">nums</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span><span class="p">;</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">let</span><span class="w"> </span><span class="nx">num</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">nums</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">total</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="nx">num</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nx">total</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nx">sumNums</span><span class="p">([</span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="mf">2</span><span class="p">,</span><span class="w"> </span><span class="mf">3</span><span class="p">,</span><span class="w"> </span><span class="p">...,</span><span class="w"> </span><span class="mf">1000000000</span><span class="p">]);</span>
+</pre></div>
+</div>
+<p>
+How long will this take?</p>
+<ul class="simple">
+<li class="fragment"><p>
+One operation for initialization of <code class="docutils literal notranslate"><span class="pre">total</span></code> variable</p></li>
+<li class="fragment"><p>
+One operation for each addition</p></li>
+<li class="fragment"><p>
+Total # operations: 1 + (1 × 1,000,000,000) = 1,000,000,001</p></li>
+</ul>
+</section>
+<section id="graph-a-linear-relationship">
+<h3>Graph: A linear relationship<a class="headerlink" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#graph-a-linear-relationship" title="Permalink to this heading">#</a></h3>
+<p>
+<img alt="Linear Time Graph" src="./Runtime_files/linear.png" style="width: 450px;"></p>
+<ul class="simple">
+<li class="fragment"><p>
+We’re most concerned with large n, since algorithms take less time for small n.</p></li>
+<li class="fragment"><p>
+What we’re interested in is the shape of the graph, or its <em>asymptotic behavior</em>.</p></li>
+</ul>
+</section>
+<section id="asymptotic-behavior-and-big-o">
+<h3>Asymptotic Behavior and “Big O”<a class="headerlink" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#asymptotic-behavior-and-big-o" title="Permalink to this heading">#</a></h3>
+<p>
+For any algorithm we drop any factors and constants, and pay attention to the <em>largest growing term</em>. This is how we figure out the asymptotic behavior.</p>
+<ul class="simple">
+<li class="fragment"><p>
+1 + (1 × 5)</p></li>
+<li class="fragment"><p>
+1 + (1 × 1,000,000,000)</p></li>
+<li class="fragment"><p>
+General formula of above: 1 + (1 × n) = <strong>1 + n</strong></p></li>
+<li class="fragment"><p>
+So if your list is <code class="docutils literal notranslate"><span class="pre">n</span></code> long, it takes <code class="docutils literal notranslate"><span class="pre">n</span></code> time to do your calculations.</p></li>
+<li class="fragment"><p>
+<strong>This function is O(n).</strong></p></li>
+</ul>
+<p>
+For <span class="math notranslate nohighlight"><mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="2" style="font-size: 109.9%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mn class="mjx-n"><mjx-c class="mjx-c32"></mjx-c></mjx-mn><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D45B TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n" space="3"><mjx-c class="mjx-c2B"></mjx-c></mjx-mo><mjx-mn class="mjx-n" space="3"><mjx-c class="mjx-c33"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>2</mn><mi>n</mi><mo>+</mo><mn>3</mn></math></mjx-assistive-mml></mjx-container></span>:</p>
+<ul class="simple">
+<li class="fragment"><p>
+We can drop the “+ 3” (doesn’t change when we scale)</p></li>
+<li class="fragment"><p>
+We can drop the “2 ×” (we grow in direct proportion to <code class="docutils literal notranslate"><span class="pre">n</span></code>)</p></li>
+<li class="fragment"><p>
+We’d call <span class="math notranslate nohighlight"><mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="3" style="font-size: 109.9%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mn class="mjx-n"><mjx-c class="mjx-c32"></mjx-c></mjx-mn><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D45B TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n" space="3"><mjx-c class="mjx-c2B"></mjx-c></mjx-mo><mjx-mn class="mjx-n" space="3"><mjx-c class="mjx-c33"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>2</mn><mi>n</mi><mo>+</mo><mn>3</mn></math></mjx-assistive-mml></mjx-container></span> → <strong>O(n)</strong></p></li>
+<li class="fragment"><p>
+We can also call it <strong>linear time</strong> because the graph is a straight line.</p></li>
+</ul>
+<p>
+What if the constant factor is really big, like <span class="math notranslate nohighlight"><mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="4" style="font-size: 109.9%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mn class="mjx-n"><mjx-c class="mjx-c31"></mjx-c><mjx-c class="mjx-c30"></mjx-c><mjx-c class="mjx-c30"></mjx-c><mjx-c class="mjx-c30"></mjx-c></mjx-mn><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D45B TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n" space="3"><mjx-c class="mjx-c2B"></mjx-c></mjx-mo><mjx-mn class="mjx-n" space="3"><mjx-c class="mjx-c31"></mjx-c><mjx-c class="mjx-c30"></mjx-c><mjx-c class="mjx-c30"></mjx-c><mjx-c class="mjx-c30"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>1000</mn><mi>n</mi><mo>+</mo><mn>1000</mn></math></mjx-assistive-mml></mjx-container></span>?</p>
+<div class="compare docutils container">
+<p>
+<img alt="Graph of n^2 vs 1000n + 1000" src="./Runtime_files/graph.png" style="width: 480px;"></p>
+<ul class="simple">
+<li class="fragment"><p>
+For <span class="math notranslate nohighlight"><mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="5" style="font-size: 109.9%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D45B TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n" space="4"><mjx-c class="mjx-c3E"></mjx-c></mjx-mo><mjx-mn class="mjx-n" space="4"><mjx-c class="mjx-c31"></mjx-c><mjx-c class="mjx-c30"></mjx-c><mjx-c class="mjx-c30"></mjx-c><mjx-c class="mjx-c30"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>n</mi><mo>&gt;</mo><mn>1000</mn></math></mjx-assistive-mml></mjx-container></span>, it’s still smaller than <span class="math notranslate nohighlight"><mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="6" style="font-size: 109.9%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-msup><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D45B TEX-I"></mjx-c></mjx-mi><mjx-script style="vertical-align: 0.363em;"><mjx-mn class="mjx-n" size="s"><mjx-c class="mjx-c32"></mjx-c></mjx-mn></mjx-script></mjx-msup></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><msup><mi>n</mi><mn>2</mn></msup></math></mjx-assistive-mml></mjx-container></span>.</p></li>
+<li class="fragment"><p>
+Sooner or later, better shapes always win.</p></li>
+</ul>
+</div>
+</section>
+<section id="worst-case">
+<h3>Worst Case<a class="headerlink" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#worst-case" title="Permalink to this heading">#</a></h3>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="kd">function</span><span class="w"> </span><span class="nx">isItemInArray</span><span class="p">(</span><span class="nx">arr</span><span class="p">,</span><span class="w"> </span><span class="nx">itemToFind</span><span class="p">)</span><span class="o">:</span>
+<span class="c1">// Return true if itemToFind is in the array and false otherwise.</span>
+
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">let</span><span class="w"> </span><span class="nx">item</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">arr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">item</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="nx">itemToFind</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li class="fragment"><p>
+How could we measure the runtime here?</p></li>
+<li class="fragment"><p>
+Do we have to know what is in the array?</p></li>
+</ul>
+<p>
+We talk pessimistically, only about worst case.</p>
+<ul class="simple">
+<li class="fragment"><p>
+Not useful to talk about best case:</p>
+<ul>
+<li class="fragment"><p>
+doesn’t happen often (worst case is more likely)</p></li>
+<li class="fragment"><p>
+most algorithms share best case, e.g. searching best case is always O(1)</p></li>
+</ul>
+</li>
+<li class="fragment"><p>
+Sometimes we care more about the average case than the worst case, but this is fairly rare.</p></li>
+</ul>
+</section>
+</section>
+<section id="common-runtimes">
+<h2>Common Runtimes<a class="headerlink" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#common-runtimes" title="Permalink to this heading">#</a></h2>
+<section id="example">
+<h3>Example<a class="headerlink" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#example" title="Permalink to this heading">#</a></h3>
+<p>
+What’s the runtime?</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span><span class="w"> </span><span class="nx">arr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mf">5</span><span class="p">,</span><span class="w"> </span><span class="mf">48</span><span class="p">,</span><span class="w"> </span><span class="mf">88</span><span class="p">,</span><span class="w"> </span><span class="mf">24</span><span class="p">,</span><span class="w"> </span><span class="mf">14</span><span class="p">];</span>
+<span class="nx">arr</span><span class="p">[</span><span class="mf">3</span><span class="p">];</span>
+</pre></div>
+</div>
+<div class="fragment docutils container">
+<p>
+A: <strong>O(1)</strong> or <strong>constant time</strong></p>
+</div>
+<div class="fragment docutils container">
+<p>
+What’s the runtime?</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span><span class="w"> </span><span class="nx">obj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s2">"a"</span><span class="o">:</span><span class="w"> </span><span class="mf">5</span><span class="p">,</span><span class="w"> </span><span class="s2">"b"</span><span class="o">:</span><span class="w"> </span><span class="mf">6</span><span class="p">,</span><span class="w"> </span><span class="s2">"c"</span><span class="o">:</span><span class="w"> </span><span class="mf">7</span><span class="p">};</span>
+<span class="nx">obj</span><span class="p">[</span><span class="s2">"a"</span><span class="p">];</span>
+</pre></div>
+</div>
+</div>
+<div class="fragment docutils container">
+<p>
+A: <strong>O(1)</strong> or <strong>constant time</strong></p>
+</div>
+</section>
+<section id="o-1-constant-time">
+<h3>O(1): Constant Time<a class="headerlink" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#o-1-constant-time" title="Permalink to this heading">#</a></h3>
+<p>
+<img alt="Constant Time Graph" src="./Runtime_files/constant.png" style="width: 450px;"></p>
+<ul class="simple">
+<li><p>
+Array indexing</p></li>
+<li><p>
+Looking up a value in an object</p></li>
+</ul>
+</section>
+<section id="o-n-linear-time">
+<h3>O(n): Linear Time<a class="headerlink" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#o-n-linear-time" title="Permalink to this heading">#</a></h3>
+<p>
+<img alt="Linear Time Graph" src="./Runtime_files/linear.png" style="width: 450px;"></p>
+<ul class="simple">
+<li><p>
+A single loop</p></li>
+<li><p>
+Two loops, one after the other</p></li>
+</ul>
+</section>
+<section id="addition-vs-multiplication">
+<h3>Addition vs. Multiplication<a class="headerlink" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#addition-vs-multiplication" title="Permalink to this heading">#</a></h3>
+<p>
+If <code class="docutils literal notranslate"><span class="pre">arrA</span></code> and <code class="docutils literal notranslate"><span class="pre">arrB</span></code> each have <code class="docutils literal notranslate"><span class="pre">n</span></code> items, what is the runtime of:</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">let</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">arrA</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">let</span><span class="w"> </span><span class="nx">b</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">arrB</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">b</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="fragment docutils container">
+<p>
+A: <span class="math notranslate nohighlight"><mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="7" style="font-size: 109.9%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D45B TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n" space="3"><mjx-c class="mjx-c2B"></mjx-c></mjx-mo><mjx-mi class="mjx-i" space="3"><mjx-c class="mjx-c1D45B TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n" space="4"><mjx-c class="mjx-c3D"></mjx-c></mjx-mo><mjx-mn class="mjx-n" space="4"><mjx-c class="mjx-c32"></mjx-c></mjx-mn><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D45B TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>n</mi><mo>+</mo><mi>n</mi><mo>=</mo><mn>2</mn><mi>n</mi></math></mjx-assistive-mml></mjx-container></span> –&gt; <span class="math notranslate nohighlight"><mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="8" style="font-size: 109.9%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D442 TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n"><mjx-c class="mjx-c28"></mjx-c></mjx-mo><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D45B TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n"><mjx-c class="mjx-c29"></mjx-c></mjx-mo></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo></math></mjx-assistive-mml></mjx-container></span></p>
+</div>
+<div class="fragment docutils container">
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">let</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">arrA</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">let</span><span class="w"> </span><span class="nx">b</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">arrB</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span><span class="w"> </span><span class="nx">b</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="fragment docutils container">
+<p>
+A: <span class="math notranslate nohighlight"><mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="9" style="font-size: 109.9%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D45B TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-cD7"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D45B TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n" space="4"><mjx-c class="mjx-c3D"></mjx-c></mjx-mo><mjx-msup space="4"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D45B TEX-I"></mjx-c></mjx-mi><mjx-script style="vertical-align: 0.363em;"><mjx-mn class="mjx-n" size="s"><mjx-c class="mjx-c32"></mjx-c></mjx-mn></mjx-script></mjx-msup></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>n</mi><mi>×</mi><mi>n</mi><mo>=</mo><msup><mi>n</mi><mn>2</mn></msup></math></mjx-assistive-mml></mjx-container></span> –&gt; <span class="math notranslate nohighlight"><mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="10" style="font-size: 109.9%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D442 TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n"><mjx-c class="mjx-c28"></mjx-c></mjx-mo><mjx-msup><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D45B TEX-I"></mjx-c></mjx-mi><mjx-script style="vertical-align: 0.363em;"><mjx-mn class="mjx-n" size="s"><mjx-c class="mjx-c32"></mjx-c></mjx-mn></mjx-script></mjx-msup><mjx-mo class="mjx-n"><mjx-c class="mjx-c29"></mjx-c></mjx-mo></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>O</mi><mo stretchy="false">(</mo><msup><mi>n</mi><mn>2</mn></msup><mo stretchy="false">)</mo></math></mjx-assistive-mml></mjx-container></span></p>
+</div>
+</div>
+</section>
+<section id="o-n-2-quadratic-time">
+<h3><span class="math notranslate nohighlight"><mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="11" style="font-size: 109.9%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D442 TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n"><mjx-c class="mjx-c28"></mjx-c></mjx-mo><mjx-msup><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D45B TEX-I"></mjx-c></mjx-mi><mjx-script style="vertical-align: 0.363em;"><mjx-mn class="mjx-n" size="s"><mjx-c class="mjx-c32"></mjx-c></mjx-mn></mjx-script></mjx-msup><mjx-mo class="mjx-n"><mjx-c class="mjx-c29"></mjx-c></mjx-mo></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>O</mi><mo stretchy="false">(</mo><msup><mi>n</mi><mn>2</mn></msup><mo stretchy="false">)</mo></math></mjx-assistive-mml></mjx-container></span>: Quadratic Time<a class="headerlink" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#o-n-2-quadratic-time" title="Permalink to this heading">#</a></h3>
+<p>
+<img alt="Quadratic Time Graph" src="./Runtime_files/quadratic.png" style="width: 450px;"></p>
+<ul class="simple">
+<li><p>
+Two nested loops</p></li>
+<li><p>
+Several inefficient sorting algorithms</p></li>
+</ul>
+</section>
+</section>
+<section id="logarithmic-runtimes">
+<h2>Logarithmic Runtimes<a class="headerlink" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#logarithmic-runtimes" title="Permalink to this heading">#</a></h2>
+<section id="guessing-game">
+<h3>Guessing Game<a class="headerlink" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#guessing-game" title="Permalink to this heading">#</a></h3>
+<p>
+I’m thinking of a number between 1 and 100.</p>
+<p>
+Try to guess the number. Every time you guess, I’ll tell you if the guess was too high or too low.</p>
+<p>
+What is the best strategy to guess my number in the fewest guesses?</p>
+<p>
+Here’s the code for the optimal guessing game strategy.</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="kd">function</span><span class="w"> </span><span class="nx">findNum</span><span class="p">(</span><span class="nx">maxNum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">100</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Binary search a number between 1 and maxNum.</span>
+
+<span class="w">  </span><span class="c1">// Pick a random target integer between 1 and maxNum.</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">target</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Math</span><span class="p">.</span><span class="nx">ceil</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">maxNum</span><span class="p">);</span>
+<span class="w">  </span><span class="kd">let</span><span class="w"> </span><span class="nx">min</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1</span><span class="p">;</span>
+<span class="w">  </span><span class="kd">let</span><span class="w"> </span><span class="nx">max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">maxNum</span><span class="p">;</span>
+<span class="w">  </span><span class="kd">let</span><span class="w"> </span><span class="nx">guess</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">// while(true) loops forever until we hit a break or return.</span>
+<span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="kc">true</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">guess</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">((</span><span class="nx">min</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">max</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">2</span><span class="p">);</span><span class="w"> </span><span class="c1">// Math.floor rounds down</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">guess</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="nx">target</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="k">break</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">guess</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nx">target</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">guess</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">1</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">min</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">guess</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nx">guess</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nx">findNum</span><span class="p">();</span>
+</pre></div>
+</div>
+<div class="fragment docutils container">
+<p>
+What do you think the runtime is?</p>
+</div>
+<p>
+Let’s say the target number is 7.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>
+guess</p></th>
+<th class="head"><p>
+min</p></th>
+<th class="head"><p>
+max</p></th>
+<th class="head"><p>
+# possible nums</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>
+50</p></td>
+<td><p>
+1</p></td>
+<td><p>
+49</p></td>
+<td><p>
+49</p></td>
+</tr>
+<tr class="row-odd"><td><p>
+25</p></td>
+<td><p>
+1</p></td>
+<td><p>
+24</p></td>
+<td><p>
+24</p></td>
+</tr>
+<tr class="row-even"><td><p>
+12</p></td>
+<td><p>
+1</p></td>
+<td><p>
+11</p></td>
+<td><p>
+11</p></td>
+</tr>
+<tr class="row-odd"><td><p>
+6</p></td>
+<td><p>
+7</p></td>
+<td><p>
+11</p></td>
+<td><p>
+5</p></td>
+</tr>
+<tr class="row-even"><td><p>
+9</p></td>
+<td><p>
+7</p></td>
+<td><p>
+8</p></td>
+<td><p>
+2</p></td>
+</tr>
+<tr class="row-odd"><td><p>
+7</p></td>
+<td><p>
+</p></td>
+<td><p>
+</p></td>
+<td><p>
+1</p></td>
+</tr>
+</tbody>
+</table>
+<p>
+The number of possible numbers gets (approximately) cut in half every time.</p>
+<ul class="simple">
+<li class="fragment"><p>
+How many times do you have to cut 100 in half before you get 1 (or less)?</p></li>
+<li class="fragment"><p>
+That is the same as the max number of guesses you will need.</p></li>
+<li class="fragment"><p>
+It’s also the same as: How many times do you have to double 1 before you get 100 (or more)?</p>
+<ul>
+<li class="fragment"><p>
+<span class="math notranslate nohighlight"><mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="12" style="font-size: 109.9%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-msup><mjx-mn class="mjx-n"><mjx-c class="mjx-c32"></mjx-c></mjx-mn><mjx-script style="vertical-align: 0.363em;"><mjx-mi class="mjx-i" size="s"><mjx-c class="mjx-c1D465 TEX-I"></mjx-c></mjx-mi></mjx-script></mjx-msup><mjx-mo class="mjx-n" space="4"><mjx-c class="mjx-c3D"></mjx-c></mjx-mo><mjx-mn class="mjx-n" space="4"><mjx-c class="mjx-c31"></mjx-c><mjx-c class="mjx-c30"></mjx-c><mjx-c class="mjx-c30"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><msup><mn>2</mn><mi>x</mi></msup><mo>=</mo><mn>100</mn></math></mjx-assistive-mml></mjx-container></span></p></li>
+</ul>
+</li>
+<li class="fragment"><p>
+This number <span class="math notranslate nohighlight"><mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="13" style="font-size: 109.9%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D465 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>x</mi></math></mjx-assistive-mml></mjx-container></span> is called the <strong><em>log</em></strong> (base 2) of 100, or <span class="math notranslate nohighlight"><mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="14" style="font-size: 109.9%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D459 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D45C TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D454 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>l</mi><mi>o</mi><mi>g</mi></math></mjx-assistive-mml></mjx-container></span><sub>2</sub><span class="math notranslate nohighlight"><mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="15" style="font-size: 109.9%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mn class="mjx-n"><mjx-c class="mjx-c31"></mjx-c><mjx-c class="mjx-c30"></mjx-c><mjx-c class="mjx-c30"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>100</mn></math></mjx-assistive-mml></mjx-container></span>.</p></li>
+<li class="fragment"><p>
+So the runtime of the algorithm is <strong>O(log n)</strong>.</p></li>
+</ul>
+<div class="admonition py-3 px-4 my-4 rounded border note">
+<p class="h5 admonition-title">
+Logarithms are assumed to be in base 2</p>
+<p>
+In computer science, we work with binary so much that logarithms are generally assumed to be in base 2. So the 2 is usually not written. But for clarity’s sake, the runtime would be O(<span class="math notranslate nohighlight"><mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="16" style="font-size: 110%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D459 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D45C TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D454 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>l</mi><mi>o</mi><mi>g</mi></math></mjx-assistive-mml></mjx-container></span><sub>2</sub><span class="math notranslate nohighlight"><mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="17" style="font-size: 110%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D45B TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>n</mi></math></mjx-assistive-mml></mjx-container></span>).</p>
+</div>
+</section>
+<section id="o-log-n-logarithmic-time">
+<h3>O(log n): Logarithmic time<a class="headerlink" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#o-log-n-logarithmic-time" title="Permalink to this heading">#</a></h3>
+<p>
+<img alt="Logarithmic Time Graph" src="./Runtime_files/logarithmic.png" style="width: 450px;"></p>
+<ul class="simple">
+<li class="fragment"><p>
+“Divide and conquer”</p></li>
+<li class="fragment"><p>
+Binary Tree Search</p></li>
+</ul>
+</section>
+<section id="o-n-log-n-logarithmic-time">
+<h3>O(n log n): Logarithmic time<a class="headerlink" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#o-n-log-n-logarithmic-time" title="Permalink to this heading">#</a></h3>
+<p>
+<img alt="Logarithmic Time Graph" src="./Runtime_files/nlogn.png" style="width: 450px;"></p>
+<ul class="simple">
+<li class="fragment"><p>
+More complex “Divide and conquer”</p></li>
+<li class="fragment"><p>
+Efficient sorting algorithms</p></li>
+</ul>
+</section>
+<section id="whats-the-difference">
+<h3>What’s the Difference?<a class="headerlink" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#whats-the-difference" title="Permalink to this heading">#</a></h3>
+<p>
+log n &lt; n &lt; n log n &lt; <span class="math notranslate nohighlight"><mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="18" style="font-size: 109.9%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-msup><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D45B TEX-I"></mjx-c></mjx-mi><mjx-script style="vertical-align: 0.363em;"><mjx-mn class="mjx-n" size="s"><mjx-c class="mjx-c32"></mjx-c></mjx-mn></mjx-script></mjx-msup></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><msup><mi>n</mi><mn>2</mn></msup></math></mjx-assistive-mml></mjx-container></span></p>
+<p>
+For n = 1000:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>
+log n</p></th>
+<th class="head"><p>
+n</p></th>
+<th class="head"><p>
+n log n</p></th>
+<th class="head"><p>
+<span class="math notranslate nohighlight"><mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="19" style="font-size: 110%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-msup><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D45B TEX-I"></mjx-c></mjx-mi><mjx-script style="vertical-align: 0.363em;"><mjx-mn class="mjx-n" size="s"><mjx-c class="mjx-c32"></mjx-c></mjx-mn></mjx-script></mjx-msup></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><msup><mi>n</mi><mn>2</mn></msup></math></mjx-assistive-mml></mjx-container></span></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>
+9.97</p></td>
+<td><p>
+1000</p></td>
+<td><p>
+9970</p></td>
+<td><p>
+1,000,000</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="less-common-and-very-slow-runtimes">
+<h2>Less Common (and Very Slow) Runtimes<a class="headerlink" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#less-common-and-very-slow-runtimes" title="Permalink to this heading">#</a></h2>
+<section id="o-2-n-exponential-time">
+<h3><span class="math notranslate nohighlight"><mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="20" style="font-size: 109.9%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D442 TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n"><mjx-c class="mjx-c28"></mjx-c></mjx-mo><mjx-msup><mjx-mn class="mjx-n"><mjx-c class="mjx-c32"></mjx-c></mjx-mn><mjx-script style="vertical-align: 0.363em;"><mjx-mi class="mjx-i" size="s"><mjx-c class="mjx-c1D45B TEX-I"></mjx-c></mjx-mi></mjx-script></mjx-msup><mjx-mo class="mjx-n"><mjx-c class="mjx-c29"></mjx-c></mjx-mo></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>O</mi><mo stretchy="false">(</mo><msup><mn>2</mn><mi>n</mi></msup><mo stretchy="false">)</mo></math></mjx-assistive-mml></mjx-container></span>: Exponential Time<a class="headerlink" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#o-2-n-exponential-time" title="Permalink to this heading">#</a></h3>
+<p>
+Example: Password Cracking</p>
+<ul class="simple">
+<li class="fragment"><p>
+Say there are 72 valid chars for a password</p></li>
+<li class="fragment"><p>
+If password is 1 char there are 72 possibilities</p></li>
+<li class="fragment"><p>
+For 4 chars that’s 72 × 72 × 72 × 72 (or <span class="math notranslate nohighlight"><mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="21" style="font-size: 109.9%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-msup><mjx-mn class="mjx-n"><mjx-c class="mjx-c37"></mjx-c><mjx-c class="mjx-c32"></mjx-c></mjx-mn><mjx-script style="vertical-align: 0.403em;"><mjx-mn class="mjx-n" size="s"><mjx-c class="mjx-c34"></mjx-c></mjx-mn></mjx-script></mjx-msup></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><msup><mn>72</mn><mn>4</mn></msup></math></mjx-assistive-mml></mjx-container></span>) possibilities (26,873,856)</p></li>
+<li class="fragment"><p>
+For 10 chars that’s 72<sup>10</sup> or 3,743,906,242,624,487,424</p></li>
+</ul>
+</section>
+<section id="o-n-factorial-time">
+<h3>O(n!): Factorial Time<a class="headerlink" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#o-n-factorial-time" title="Permalink to this heading">#</a></h3>
+<p>
+Example: List all possible ways to arrange 4 books on a shelf</p>
+<ul class="simple">
+<li class="fragment"><p>
+4 choices for the first book</p></li>
+<li class="fragment"><p>
+3 remaining choices for the 2nd book</p></li>
+<li class="fragment"><p>
+2 remaining choices for the 3rd book</p></li>
+<li class="fragment"><p>
+Only one remaining choice for the last book</p></li>
+<li class="fragment"><p>
+Total: 4 × 3 × 2 × 1 = 4! = 24</p></li>
+<li class="fragment"><p>
+For 20 books: 20! = 2,432,902,008,176,640,000</p></li>
+</ul>
+</section>
+</section>
+<section id="sets">
+<h2>Sets<a class="headerlink" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#sets" title="Permalink to this heading">#</a></h2>
+<section id="id2">
+<h3>Sets<a class="headerlink" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#id2" title="Permalink to this heading">#</a></h3>
+<ul>
+<li class="fragment"><p>
+A <strong><em>Set</em></strong> is an unordered collection of items that cannot contain any duplicates.</p></li>
+<li class="fragment"><p>
+Think of a box of crayons: there’s no order, and no two crayons are the same</p></li>
+<li class="fragment"><p>
+To create a new empty Set:</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="kd">let</span><span class="w"> </span><span class="nx">mySet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Set</span><span class="p">();</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+<section id="using-sets">
+<h3>Using Sets<a class="headerlink" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#using-sets" title="Permalink to this heading">#</a></h3>
+<ul>
+<li class="fragment"><p>
+A Set can be created from an array. Any duplicates will be automatically removed.</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="kd">let</span><span class="w"> </span><span class="nx">mySet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Set</span><span class="p">([</span><span class="s1">'red'</span><span class="p">,</span><span class="w"> </span><span class="s1">'blue'</span><span class="p">,</span><span class="w"> </span><span class="s1">'green'</span><span class="p">,</span><span class="w"> </span><span class="s1">'blue'</span><span class="p">,</span><span class="w"> </span><span class="s1">'yellow'</span><span class="p">]);</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">mySet</span><span class="p">);</span><span class="w">  </span><span class="c1">// Set(4) { 'red', 'blue', 'green', 'yellow' }</span>
+</pre></div>
+</div>
+</li>
+<li class="fragment"><p>
+You can loop through a Set with <code class="docutils literal notranslate"><span class="pre">for...of</span></code>:</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">const</span><span class="w"> </span><span class="nx">item</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">set2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">item</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<ul>
+<li class="fragment"><p>
+Indexing won’t work because sets are unordered</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">mySet</span><span class="p">[</span><span class="mf">0</span><span class="p">]);</span><span class="w">  </span><span class="c1">// undefined</span>
+</pre></div>
+</div>
+</li>
+<li class="fragment"><p>
+Trying to add an item that’s already in the set will do nothing:</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="kd">let</span><span class="w"> </span><span class="nx">mySet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Set</span><span class="p">([</span><span class="s1">'red'</span><span class="p">,</span><span class="w"> </span><span class="s1">'blue'</span><span class="p">,</span><span class="w"> </span><span class="s1">'green'</span><span class="p">,</span><span class="w"> </span><span class="s1">'yellow'</span><span class="p">]);</span>
+
+<span class="nx">mySet</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">'green'</span><span class="p">);</span><span class="w">  </span><span class="c1">// nothing happens</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>
+Common operations with Sets:</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="nx">mySet</span><span class="p">.</span><span class="nx">size</span><span class="p">;</span><span class="w">  </span><span class="c1">// get # of items in set</span>
+
+<span class="nx">mySet</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">'orange'</span><span class="p">);</span><span class="w">  </span><span class="c1">// add item to set</span>
+
+<span class="nx">mySet</span><span class="p">.</span><span class="ow">delete</span><span class="p">(</span><span class="s1">'red'</span><span class="p">);</span><span class="w">  </span><span class="c1">// remove item from set</span>
+
+<span class="nx">mySet</span><span class="p">.</span><span class="nx">has</span><span class="p">(</span><span class="s1">'blue'</span><span class="p">);</span><span class="w">    </span><span class="c1">// check if item is in set</span>
+</pre></div>
+</div>
+</section>
+<section id="sets-and-runtime">
+<h3>Sets and Runtime<a class="headerlink" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#sets-and-runtime" title="Permalink to this heading">#</a></h3>
+<p>
+What is the runtime?</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="kd">function</span><span class="w"> </span><span class="nx">sumToZero</span><span class="p">(</span><span class="nx">nums</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Return true if any two numbers in the array sum to zero.</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">const</span><span class="w"> </span><span class="nx">x</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">nums</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">arr</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="o">-</span><span class="nx">x</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nx">sumToZero</span><span class="p">([</span><span class="mf">5</span><span class="p">,</span><span class="w"> </span><span class="mf">9</span><span class="p">,</span><span class="w"> </span><span class="mf">10</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mf">2</span><span class="p">,</span><span class="w"> </span><span class="mf">10</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mf">5</span><span class="p">]);</span>
+</pre></div>
+</div>
+<div class="fragment docutils container">
+<p>
+Runtime is <span class="math notranslate nohighlight"><mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="22" style="font-size: 109.9%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D442 TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n"><mjx-c class="mjx-c28"></mjx-c></mjx-mo><mjx-msup><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D45B TEX-I"></mjx-c></mjx-mi><mjx-script style="vertical-align: 0.363em;"><mjx-mn class="mjx-n" size="s"><mjx-c class="mjx-c32"></mjx-c></mjx-mn></mjx-script></mjx-msup><mjx-mo class="mjx-n"><mjx-c class="mjx-c29"></mjx-c></mjx-mo></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>O</mi><mo stretchy="false">(</mo><msup><mi>n</mi><mn>2</mn></msup><mo stretchy="false">)</mo></math></mjx-assistive-mml></mjx-container></span>.</p>
+<p>
+<code class="docutils literal notranslate"><span class="pre">.includes()</span></code> is a “hidden for loop” and runs in linear time.</p>
+<p>
+Checking if an item is in an array requires iterating through the array.</p>
+</div>
+<p>
+Here’s a more efficient way to do it:</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="kd">function</span><span class="w"> </span><span class="nx">sumToZeroWithSet</span><span class="p">(</span><span class="nx">nums</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Return true if any two numbers in the array sum to zero.</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">numsSet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Set</span><span class="p">(</span><span class="nx">nums</span><span class="p">);</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">const</span><span class="w"> </span><span class="nx">x</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">nums</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">numsSet</span><span class="p">.</span><span class="nx">has</span><span class="p">(</span><span class="o">-</span><span class="nx">x</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="fragment docutils container">
+<p>
+The <code class="docutils literal notranslate"><span class="pre">for</span></code> loop still takes linear time, but set lookup is O(1).</p>
+<p>
+So the overall runtime is O(n) × O(1) = O(n).</p>
+</div>
+</section>
+</section>
+<section id="using-runtimes">
+<h2>Using Runtimes<a class="headerlink" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#using-runtimes" title="Permalink to this heading">#</a></h2>
+<section id="runtime-comparison">
+<h3>Runtime Comparison<a class="headerlink" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#runtime-comparison" title="Permalink to this heading">#</a></h3>
+<p>
+<img alt="All Runtimes Graph" src="./Runtime_files/all-runtimes.png" style="width: 800px;"></p>
+</section>
+<section id="what-do-these-equal">
+<h3>What Do These Equal?<a class="headerlink" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#what-do-these-equal" title="Permalink to this heading">#</a></h3>
+<p>
+For n = 100:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>
+Type</p></th>
+<th class="head"><p>
+Runtime</p></th>
+<th class="head"><p>
+Result</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>
+Constant</p></td>
+<td><p>
+O(1)</p></td>
+<td><p>
+1</p></td>
+</tr>
+<tr class="row-odd"><td><p>
+Logarithmic</p></td>
+<td><p>
+O(log n)</p></td>
+<td><p>
+6.64</p></td>
+</tr>
+<tr class="row-even"><td><p>
+Linear</p></td>
+<td><p>
+O(n)</p></td>
+<td><p>
+100</p></td>
+</tr>
+<tr class="row-odd"><td><p>
+Linearithmic</p></td>
+<td><p>
+O(n log n)</p></td>
+<td><p>
+664</p></td>
+</tr>
+<tr class="row-even"><td><p>
+Quadratic</p></td>
+<td><p>
+O(<span class="math notranslate nohighlight"><mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="23" style="font-size: 110%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-msup><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D45B TEX-I"></mjx-c></mjx-mi><mjx-script style="vertical-align: 0.363em;"><mjx-mn class="mjx-n" size="s"><mjx-c class="mjx-c32"></mjx-c></mjx-mn></mjx-script></mjx-msup></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><msup><mi>n</mi><mn>2</mn></msup></math></mjx-assistive-mml></mjx-container></span>)</p></td>
+<td><p>
+10,000</p></td>
+</tr>
+<tr class="row-odd"><td><p>
+Exponential</p></td>
+<td><p>
+O(<span class="math notranslate nohighlight"><mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="24" style="font-size: 110%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-msup><mjx-mn class="mjx-n"><mjx-c class="mjx-c32"></mjx-c></mjx-mn><mjx-script style="vertical-align: 0.363em;"><mjx-mi class="mjx-i" size="s"><mjx-c class="mjx-c1D45B TEX-I"></mjx-c></mjx-mi></mjx-script></mjx-msup></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><msup><mn>2</mn><mi>n</mi></msup></math></mjx-assistive-mml></mjx-container></span>)</p></td>
+<td><p>
+1.27 million trillion trillion</p></td>
+</tr>
+<tr class="row-even"><td><p>
+Factorial</p></td>
+<td><p>
+O(n!)</p></td>
+<td><p>
+9.33 × 10<sup>157</sup></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="rules-of-thumb">
+<h3>Rules of Thumb<a class="headerlink" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#rules-of-thumb" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li class="fragment"><p>
+Object/set lookup and list indexing is O(1) or constant</p></li>
+<li class="fragment"><p>
+Searching in a list is O(n) or linear</p></li>
+<li class="fragment"><p>
+A single loop or multiple non-nested loops are O(n), or linear</p></li>
+<li class="fragment"><p>
+Two nested loops is <span class="math notranslate nohighlight"><mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="25" style="font-size: 109.9%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D442 TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n"><mjx-c class="mjx-c28"></mjx-c></mjx-mo><mjx-msup><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D45B TEX-I"></mjx-c></mjx-mi><mjx-script style="vertical-align: 0.363em;"><mjx-mn class="mjx-n" size="s"><mjx-c class="mjx-c32"></mjx-c></mjx-mn></mjx-script></mjx-msup><mjx-mo class="mjx-n"><mjx-c class="mjx-c29"></mjx-c></mjx-mo></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>O</mi><mo stretchy="false">(</mo><msup><mi>n</mi><mn>2</mn></msup><mo stretchy="false">)</mo></math></mjx-assistive-mml></mjx-container></span> or quadratic</p></li>
+<li class="fragment"><p>
+If you divide work by half every time, you get O(log n) or logarithmic</p></li>
+<li class="fragment"><p>
+If you do <code class="docutils literal notranslate"><span class="pre">n</span></code> work <code class="docutils literal notranslate"><span class="pre">log</span> <span class="pre">n</span></code> times, O(n log n)</p></li>
+</ul>
+</section>
+</section>
+<section id="looking-ahead">
+<h2>Looking Ahead<a class="headerlink" href="file:///Users/stevechait/src/webdev-curriculum/contents/lectures/wb-runtime/_build/html/index.html#looking-ahead" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>
+More data structures</p></li>
+<li><p>
+<a class="reference external" href="https://www.bigocheatsheet.com/">Big O Cheat Sheet</a></p></li>
+</ul>
+</section>
+</section>
+ </div>
+  </main>
+</div>
+
+<script>
+  (() => {
+    document.querySelectorAll('.admonition-title + .admonition-title').forEach((el) => {
+      el.previousElementSibling.remove();
+    });
+  })();
+</script>
+<script data-url_root="./" id="documentation_options" src="./Runtime_files/documentation_options.js"></script>
+<script src="./Runtime_files/doctools.js"></script>
+<script src="./Runtime_files/sphinx_highlight.js"></script>
+<script src="./Runtime_files/popper.min.js"></script>
+<script src="./Runtime_files/bootstrap.min.js"></script>
+<script async="async" src="./Runtime_files/tex-mml-chtml.js"></script>
+<script src="./Runtime_files/scrollspy.js"></script>
+<script src="./Runtime_files/revealjs-code-scroller.js"></script>
+  
+</body></html>

@@ -1,0 +1,40 @@
+.sphinx-tabs {
+  margin: 1.5em 0;
+}
+
+.sphinx-tabs-panel {
+  position: unset;
+  padding: unset;
+  padding: unset;
+  border: 0;
+}
+
+.sphinx-tabs-tab {
+  font-size: 0.9rem !important;
+  font-family: inherit;
+  color: var(--darkGray);
+  line-height: inherit;
+  font-size: inherit;
+  border-radius: 0;
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid transparent !important;
+  margin: 0 0 -1px 0 !important;
+}
+
+.sphinx-tabs-tab[aria-selected='true'] {
+  color: black;
+  border-top: 1px solid var(--gray) !important;
+  border-left: 1px solid var(--gray) !important;
+  border-right: 1px solid var(--gray) !important;
+  border-bottom: 1px solid #fff !important;
+  font-weight: 600;
+  background-color: white;
+}
+
+[role='tablist'] {
+  border-bottom: 1px solid var(--gray);
+  display: flex;
+  flex-wrap: wrap;
+}

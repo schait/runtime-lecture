@@ -1,0 +1,427 @@
+:root {
+  --bs-body-font-family: 'Source Sans 3', var(--bs-font-sans-serif);
+  --bs-font-monospace: 'IBM Plex Mono', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+    'Courier New', monospace;
+  --brand-img: url(https://ed.devmountain.com/static/images/dm-logo.56952e1da050.png);
+  --brand-width: 240px;
+  --brand-height: 38px;
+  --specs-hll-color: rgb(253 245 185);
+}
+
+body {
+  position: relative !important;
+}
+
+pre {
+  tab-size: 2;
+}
+
+.toctree-l1.current > a {
+  font-weight: normal;
+}
+
+.toctree-l2.current .toctree-l3 {
+  display: list-item;
+}
+
+.specs-sidebar nav li.current a[href='#'] {
+  font-weight: 600;
+}
+
+#course-content.toctree-wrapper .toctree-l1 {
+  margin-block-end: 1.5rem;
+}
+
+#course-content.toctree-wrapper .toctree-l1 > a {
+  display: block;
+  margin: 0.5rem 0;
+}
+
+#course-content.toctree-wrapper .toctree-l1 > a:hover {
+  text-decoration: underline;
+}
+
+#course-content .toctree-l3,
+#course-content .toctree-l4 {
+  display: none;
+}
+
+.specs-sidebar nav .caption {
+  font-size: 0.8rem;
+  margin-top: 1.5em;
+  margin-bottom: 0;
+  line-height: 1;
+}
+
+#course-content.toctree-wrapper ul {
+  padding-left: 0;
+  list-style: none;
+}
+
+#course-content .toctree-l1 > a {
+  font-size: 1.5rem;
+}
+
+#course-content .toctree-l2 > ul {
+  padding-left: 1.5rem;
+  list-style: disc;
+  font-size: 0.85em;
+}
+
+footer {
+  min-height: 200px;
+}
+
+.loweralpha {
+  list-style: lower-alpha;
+}
+
+#localtoc > ul > li {
+  margin-block-end: 0.8rem;
+}
+
+#localtoc > ul > li > a {
+  font-size: 1.05em;
+  margin-bottom: 0.25rem;
+  display: inline-block;
+}
+
+#localtoc > ul > li > ul {
+  padding-left: 1rem;
+}
+
+#localtoc > ul > li > ul > li {
+  list-style: circle;
+}
+
+#localtoc > ul > li > ul > li > ul {
+  font-size: 0.875em;
+  padding-left: 1rem;
+}
+
+#localtoc > ul > li > ul > li > ul > li ul {
+  display: none;
+}
+
+.toctree-l1,
+#localtoc li {
+  line-height: 1.2;
+}
+
+.sphinx-tabs {
+  margin: 1.5em 0;
+}
+
+.sphinx-tabs-panel {
+  position: unset;
+  padding: unset;
+  padding: unset;
+  border: 0;
+}
+
+.sphinx-tabs-tab {
+  font-size: 0.9rem !important;
+  font-family: inherit;
+  color: var(--bs-dark);
+  line-height: inherit;
+  font-size: inherit;
+  border-radius: 0;
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid transparent !important;
+  margin: 0 0 -1px 0 !important;
+}
+
+.sphinx-tabs-tab[aria-selected='true'] {
+  color: var(--bs-dark);
+  border-top: 1px solid var(--bs-secondary) !important;
+  border-left: 1px solid var(--bs-secondary) !important;
+  border-right: 1px solid var(--bs-secondary) !important;
+  border-bottom: 1px solid transparent !important;
+  font-weight: 600;
+}
+
+[role='tablist'] {
+  border-bottom: 1px solid var(--bs-secondary);
+  display: flex;
+  flex-wrap: wrap;
+  margin-block-end: 1rem;
+}
+
+.highlight span {
+  position: relative;
+  z-index: 10;
+}
+
+.highlight span.hll {
+  display: inline;
+  background: none !important;
+}
+
+.highlight span.hll::before {
+  content: '';
+  width: calc(800px - (var(--bs-card-spacer-x) * 2));
+  position: absolute;
+  height: 110%;
+  overflow: hidden;
+  background: var(--specs-hll-color);
+  z-index: -1;
+}
+
+.highlight,
+.literal-block {
+  max-height: 480px;
+  overflow-y: auto;
+}
+
+.literal-block.console {
+  max-height: 200px;
+}
+
+h3 {
+  font-weight: normal;
+}
+
+h4 {
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: var(--bs-secondary);
+}
+
+.specs-content > section:first-child > h1:first-child + p cite,
+h1 cite,
+h2 cite,
+h3 cite,
+h4 cite,
+h5 cite,
+h6 cite {
+  font-weight: inherit;
+}
+
+.docutils.container {
+  max-width: unset;
+  padding: 0;
+  margin: 0;
+}
+
+.console.shell .cmd::before {
+  content: '$ ';
+  color: var(--bs-light);
+}
+
+figcaption {
+  color: var(--specs-caption-color);
+  font-size: 0.875em;
+}
+
+figure a.image-reference + figcaption {
+  margin-top: 0.5rem;
+}
+
+#localtoc .active {
+  font-weight: 600;
+  color: var(--bs-dark) !important;
+}
+
+div[class*='admonition-'] {
+  --admonition-background-color: var(--bs-gray-100);
+  border-left-color: var(--admonition-color) !important;
+  background: var(--admonition-background-color);
+}
+
+div[class*='admonition-'] .admonition-title {
+  display: block;
+  line-height: 1;
+  font-size: 1rem;
+  text-transform: lowercase;
+  font-variant: small-caps;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.admonition > p:last-child,
+.admonition > ul:last-child,
+.admonition > ol:last-child,
+.admonition > div:last-child,
+.admonition > table:last-child,
+.admonition > pre:last-child,
+li > p:last-child {
+  margin-bottom: 0.25rem;
+}
+
+.admonition .blockquote {
+  font-size: 1em;
+  background: var(--bs-body-bg);
+}
+
+.admonition .blockquote-footer {
+  margin-top: -0.5rem;
+}
+
+.blockquote footer {
+  min-height: 0;
+}
+
+pre.console {
+  color: var(--bs-gray-500);
+}
+
+.admonition-knowledge-check {
+  --admonition-color: var(--bs-purple);
+  --admonition-background-color: #f4efff !important;
+}
+
+a.img-thumbnail {
+  padding: 0;
+  background-color: transparent;
+  border: 0;
+  border-radius: 0;
+  max-width: auto;
+  height: auto;
+}
+
+kbd.compound {
+  background-color: transparent;
+  border: 0;
+  box-shadow: none;
+  padding: 0;
+}
+
+kbd.compound kbd {
+  padding: 2px 4px;
+}
+
+pre.console {
+  user-select: none;
+}
+
+pre.console .cmd {
+  user-select: text;
+}
+
+.brand {
+  top: 5px;
+  left: 5px;
+  width: var(--brand-width);
+  height: var(--brand-height);
+  background-image: var(--brand-img);
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 30%;
+}
+
+em > strong {
+  font-weight: 600;
+}
+
+.specs-layout {
+  margin-top: 0;
+}
+
+div.fragment > p:last-child {
+  margin-bottom: 1rem;
+}
+
+.compare {
+  display: grid;
+  grid-auto-columns: 1fr;
+  grid-auto-flow: column;
+  grid-gap: 0.75em;
+}
+
+.compare > * {
+  min-width: 100%;
+  width: 100%;
+}
+
+.compare :first-child,
+.compare > :not(.container) {
+  margin-top: 0;
+}
+
+.specs-layout .specs-content section .compare {
+  /* width of screen - width of sidebar - (width of margins + grid gap) */
+  /* should span the entire width of the content area except for sidebar */
+  width: calc(100vw - 200px - 8rem);
+  min-width: 768px; /* Bootstrap's medium breakpoint */
+}
+
+.red {
+  color: var(--bs-red);
+}
+
+table {
+  caption-side: top;
+  font-size: 0.9em;
+  line-height: 1.3;
+}
+
+th {
+  background: var(--bs-table-striped-bg) !important;
+}
+
+th {
+  line-height: 1.1;
+}
+
+table caption {
+  padding: 0;
+  color: var(--specs-caption-color);
+  font-size: var(--specs-text-small);
+  font-style: italic;
+}
+
+table + table > caption {
+  margin-top: 0.5rem;
+}
+
+/* These are copied from Bootstrap's .table class */
+table:not(.table) {
+  --bs-table-color: var(--bs-body-color);
+  --bs-table-bg: transparent;
+  --bs-table-border-color: var(--bs-border-color);
+  --bs-table-accent-bg: transparent;
+  --bs-table-striped-color: var(--bs-body-color);
+  --bs-table-striped-bg: rgba(0, 0, 0, 0.05);
+  --bs-table-active-color: var(--bs-body-color);
+  --bs-table-active-bg: rgba(0, 0, 0, 0.1);
+  --bs-table-hover-color: var(--bs-body-color);
+  --bs-table-hover-bg: rgba(0, 0, 0, 0.075);
+  width: 100%;
+  margin-bottom: 1rem;
+  color: var(--bs-table-color);
+  vertical-align: top;
+  border-color: var(--bs-table-border-color);
+}
+
+table:not(.table) > :not(caption) > * > * {
+  padding: 0.5rem 0.5rem;
+  background-color: var(--bs-table-bg);
+  border-bottom-width: 1px;
+  box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
+  border-color: var(--bs-table-border-color);
+}
+
+table.vertical-top td {
+  vertical-align: top;
+}
+
+table.vertical-bottom td {
+  vertical-align: bottom;
+}
+
+table.vertical-middle td {
+  vertical-align: middle;
+}
+
+.console .highlight span {
+  color: inherit !important;
+}
+
+div.console .highlight pre {
+  background: black !important;
+  color: var(--bs-gray-500);
+  border-radius: var(--bs-card-border-radius);
+  padding: 2rem;
+}

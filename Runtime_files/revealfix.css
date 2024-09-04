@@ -1,0 +1,256 @@
+.reveal {
+  --bs-body-font-family: 'Source Sans 3', var(--bs-font-sans-serif);
+  --bs-font-monospace: 'IBM Plex Mono', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+    'Courier New', monospace;
+  --bs-body-font-size: 1.1rem;
+  --bs-primary-rgb: 0, 154, 223;
+  --bs-link-hover-color: #005684;
+  --bs-card-border-radius: 0.375rem;
+  --bs-card-border-width: 1px;
+  --bs-card-border-color: var(--bs-border-color-translucent);
+  --bs-card-bg: var(--bs-gray-100);
+  --bs-card-spacer-y: 1rem;
+  --bs-card-spacer-x: 1rem;
+  --bs-card-inner-border-radius: calc(0.375rem - 1px);
+  --bs-card-cap-padding-y: 0.5rem;
+  --bs-card-cap-padding-x: 1rem;
+  --bs-card-cap-bg: rgba(0, 0, 0, 0.03);
+  --bs-border-color: #495057;
+  --specs-hll-color: #3f3609;
+  --specs-caption-color: var(--bs-gray-600);
+  --specs-text-small: 1rem;
+
+  --r-main-font: var(--bs-body-font-family);
+  --r-heading-font: var(--r-main-font);
+  --r-code-font: var(--bs-font-monospace);
+  --r-main-font-size: 38px;
+  --r-main-color: var(--bs-gray-200);
+  --r-heading-color: white;
+  --r-heading-text-transform: none;
+
+  --bs-body-color: var(--r-main-color);
+}
+
+.reveal p {
+  margin-top: 0;
+}
+
+.reveal li > p:first-child:last-child,
+.reveal p:last-child {
+  margin-bottom: 0;
+}
+
+.reveal li {
+  margin-bottom: 0.875rem;
+  line-height: 1.16;
+}
+
+.reveal li p {
+  line-height: inherit;
+}
+
+.reveal li > ul,
+.reveal li > ol {
+  margin-top: 0.875rem;
+}
+
+.reveal-viewport {
+  line-height: 1.3em;
+}
+
+.reveal .slides h1,
+.reveal .slides h2,
+.reveal .slides h3,
+.reveal .slides h4,
+.reveal .slides h5,
+.reveal .slides h6 {
+  text-align: center;
+}
+
+.reveal .slides em > strong,
+.reveal .slides cite {
+  font-weight: 600;
+  font-style: italic;
+}
+
+.reveal .slides strong,
+.reveal .slides cite {
+  color: #89afca;
+}
+
+.reveal .controls button.highlight {
+  overflow-y: unset;
+  background: none;
+}
+
+/* .reveal div[class^='highlight-'] .highlight {
+  overflow: scroll;
+  border-radius: var(--bs-card-border-radius);
+} */
+
+.reveal .highlight > pre {
+  width: 100%;
+  box-shadow: none;
+  padding: 1.5rem;
+  margin: 0;
+}
+
+.reveal .highlight > pre,
+.reveal pre.console {
+  font-size: 1.12rem !important;
+}
+
+.text-left {
+  text-align: left !important;
+}
+
+.reveal pre {
+  box-shadow: none;
+}
+
+.reveal pre.console {
+  background: black;
+  border-radius: var(--bs-card-border-radius);
+  padding: 2rem;
+}
+
+.reveal pre.console .cmd {
+  color: #e6db74;
+}
+
+.reveal code {
+  font-size: 0.875em;
+}
+
+.reveal .headerlink {
+  display: none;
+}
+
+.reveal .code-block-caption,
+.reveal .code-block-caption span,
+.reveal table.docutils caption {
+  font-size: 1.6rem !important;
+  color: #6b6b6b;
+  font-style: italic;
+  font-weight: 300;
+  text-align: left;
+}
+
+.reveal li li {
+  font-size: 0.9em;
+}
+
+.reveal .compare {
+  --r-compare-width: 130%;
+  position: relative;
+  width: var(--r-compare-width);
+  right: calc((var(--r-compare-width) - 100%) / 2); /* offset to re-center columns */
+}
+
+/* Fix slides overview */
+.reveal.overview section[hidden] {
+  display: block !important;
+}
+
+/* .docutils.container has rules to reset styling done by Bootstrap for .container so we need to re-apply a margin-bottom here */
+.reveal .docutils.container.literal-block-wrapper,
+.reveal *[class^='highlight-'] {
+  margin-bottom: var(--r-block-margin);
+}
+
+.reveal .highlight span.hll::before {
+  width: 100%;
+}
+
+.reveal .highlight span.hll {
+  display: block;
+  width: 100%;
+  word-wrap: inherit;
+}
+
+.reveal kbd {
+  color: #333;
+  background-color: #eee;
+  border-radius: 7px;
+  border: 1px solid rgb(195 195 195);
+  box-shadow: 5px 10px 10px rgb(0 0 0), 0 3px 0 0 rgb(195 195 195) inset;
+  padding: 6px 8px;
+  font-size: 0.7em;
+  display: inline-block;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  font-family: var(--bs-font-monospace);
+}
+
+.reveal kbd.compound kbd {
+  padding: 6px 8px;
+}
+
+.reveal table {
+  --bs-table-striped-bg: rgb(255 255 255 / 5%);
+}
+
+/* These are copied from Bootstrap's fs-* utility functions. Use .reveal-fs-* when you
+   only want font size to change in slides. */
+@media (min-width: 1200px) {
+  .reveal .reveal-fs-3 {
+    font-size: 1.75rem !important;
+  }
+
+  .reveal .reveal-fs-4 {
+    font-size: 1.5rem !important;
+  }
+}
+
+.reveal .reveal-fs-3 {
+  font-size: calc(1.3rem + 0.6vw) !important;
+}
+.reveal .reveal-fs-4 {
+  font-size: calc(1.275rem + 0.3vw) !important;
+}
+
+.reveal .guilabel {
+  display: inline-block;
+  border-radius: 4px;
+  padding: 1px 3px;
+  border: 1px solid var(--bs-gray-500);
+  font-size: 0.9em;
+}
+
+.reveal blockquote {
+  width: unset;
+  margin: unset;
+  padding: unset;
+  font-style: inherit;
+  background: inherit;
+  box-shadow: none;
+}
+
+.reveal blockquote > div {
+  display: block;
+  position: relative;
+  width: 90%;
+  margin: var(--r-block-margin) auto;
+  padding: 0.8em 0.5em;
+  font-style: italic;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Give graphs a little more horizontal space in slides. */
+.reveal div.graphviz {
+  width: 120%;
+  /* offset to re-center columns */
+  position: relative;
+  right: 10%;
+  /* don't let graphviz overflow the viewport */
+  max-width: 100vw;
+}
+
+/*
+.reveal div.console .highlight {
+  background: black !important;
+  border-radius: var(--bs-card-border-radius);
+  padding: 2rem;
+}
+*/
